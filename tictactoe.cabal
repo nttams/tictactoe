@@ -20,7 +20,7 @@ executable server
                       http-types,
                       bytestring,
                       aeson
-    other-modules:    Matrix
+    other-modules:    Matrix, Types
     hs-source-dirs:   app, src
     default-language: Haskell2010
 
@@ -36,6 +36,6 @@ executable client
                       bytestring,
                       aeson,
                       http-conduit
-    other-modules:    Matrix
+    other-modules:    Matrix, Types
     hs-source-dirs:   app, src
     default-language: Haskell2010

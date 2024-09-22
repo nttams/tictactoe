@@ -50,14 +50,10 @@ clientPlay matrix = do
                         clientPlay matrix
                     Just (ServerResponse state newMatrix) -> do
                         printMatrix newMatrix
-                        if state == MACHINE_WON then 
-                            putStrLn "Machine won"
-                        else if state == USER_WON then 
-                            putStrLn "Player won"
-                        else if state == KEEP_PLAYING then 
-                            clientPlay newMatrix
-                        else 
-                            putStrLn "Unrecognized message"
+                        case state of
+                            MACHINE_WON -> putStrLn "Machine won"
+                            USER_WON -> putStrLn "Player won"
+                            KEEP_PLAYING -> clientPlay newMatrix
 
 main :: IO ()
 main = clientPlay Data.Map.empty

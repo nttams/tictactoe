@@ -41,12 +41,14 @@ application request respond = do
             L.putStr (L.fromStrict reqBody)
             putStrLn ""
             let matrixAfterPlayerMove = updateMatrix matrix playerNewPos O
-                userWon = checkWin matrixAfterPlayerMove playerNewPos O globalWinSize
-            if userWon then respond $ responseLBS status200 [] (Data.Aeson.encode (ServerResponse USER_WON matrixAfterPlayerMove))
+            if checkWin matrixAfterPlayerMove playerNewPos O globalWinSize then
+                respond $ responseLBS status200 [] (Data.Aeson.encode (ServerResponse USER_WON matrixAfterPlayerMove))
             else do
                 (matrixAfterMachineMove, machineNewPos) <- machinePlay matrixAfterPlayerMove
-                if checkWin matrixAfterMachineMove machineNewPos X globalWinSize then respond $ responseLBS status200 [] (Data.Aeson.encode (ServerResponse MACHINE_WON matrixAfterMachineMove))
-                else respond $ responseLBS status200 [] (Data.Aeson.encode (ServerResponse KEEP_PLAYING matrixAfterMachineMove))
+                if checkWin matrixAfterMachineMove machineNewPos X globalWinSize then
+                    respond $ responseLBS status200 [] (Data.Aeson.encode (ServerResponse MACHINE_WON matrixAfterMachineMove))
+                else
+                    respond $ responseLBS status200 [] (Data.Aeson.encode (ServerResponse KEEP_PLAYING matrixAfterMachineMove))
 
 main :: IO()
 main = run 3000 application
